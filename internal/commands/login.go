@@ -3,15 +3,13 @@ package commands
 import (
 	"errors"
 	"fmt"
-
-	"github.com/heretic1321/gator/internal/config"
 )
 
-func handlerLogin(conf *config.Config, cmd Command ) error{
-  if len(cmd.Args) < 1 {
+func handlerLogin(state *State, args []string ) error{
+  if len(args) < 1 {
 		return errors.New("a username field is required")
 	}
-	conf.SetUser(cmd.Args[0])
-	fmt.Println("username set to :", cmd.Args[0])
+	state.Cfg.SetUser(args[0])
+	fmt.Println("username set to :", args[0])
 	return nil
 }

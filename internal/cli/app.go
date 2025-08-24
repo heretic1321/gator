@@ -2,19 +2,16 @@ package cli
 
 import (
 	"errors"
-	"strings"
 
 	"github.com/heretic1321/gator/internal/commands"
-	"github.com/heretic1321/gator/internal/config"
 )
 
 type App struct {
-	Conf *config.Config
+	state *commands.State	
 }
 
-
 func (a *App) Run( args []string) error{
-	err := a.Conf.SetUser("heretic")	
+	err := a.state.Cfg.SetUser("heretic")	
 	if err != nil {
 		return err
 	}
@@ -23,19 +20,16 @@ func (a *App) Run( args []string) error{
 	}
 	cmds := commands.New()
 	
-	command := commands.Command{
-		Name: strings.ToLower(args[0]),
-		Args: args[1:],
-	}
-	err = cmds.Run(a.Conf, command)
+	err = cmds.Run(a.state, args)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func New (conf *config.Config) App{
+func New (state commands.State) App{	
+	
 	return App{
-		Conf : conf,
+		state: &state,
 	}
 }

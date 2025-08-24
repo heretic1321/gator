@@ -1,20 +1,36 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
-	"github.com/heretic1321/gator/cli"
+
+	"github.com/heretic1321/gator/internal/cli"
+	"github.com/heretic1321/gator/internal/commands"
 	"github.com/heretic1321/gator/internal/config"
+	"github.com/heretic1321/gator/internal/database"
+	_ "github.com/lib/pq"
 )
+
 
 func main(){
 	conf, err := config.New()
-
 	if err != nil {
 		fmt.Println(err)
 	}
-	app := cli.New(&conf)
+	
+	db, err := sql.Open("postgres", conf.DBURL)
+	dbQueries := database.New(db)
+	
+	state := commands.State{
+		DB: dbQueries,
+		Cfg: &conf,
+	}
+
+
+	app := cli.New(state)
+
 
 	args := os.Args[1:]	
 	err = app.Run(args)

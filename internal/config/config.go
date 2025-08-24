@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+
 	"github.com/heretic1321/gator/internal/errorhandler"
 )
 
@@ -52,7 +53,7 @@ func New() (Config,error){
 
 func (c *Config) SetUser(name string) error{
 	c.CurrentUsername = name
-  err := c.writeToConfig()
+	err := c.writeToConfig()
 	if err != nil {
 		return err
 	}
@@ -64,7 +65,7 @@ func getConfigFilePath() (string, error){
 	if err != nil{
 		return "", err 
 	}
-	return homeDir + "/" + configFileName, nil
+	return homeDir + "/" +configFileName, nil
 }
 
 
