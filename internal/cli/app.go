@@ -10,17 +10,13 @@ type App struct {
 	state *commands.State	
 }
 
-func (a *App) Run( args []string) error{
-	err := a.state.Cfg.SetUser("heretic")	
-	if err != nil {
-		return err
-	}
+func (a *App) Run( args []string) error{	
 	if len(args) < 1 {
 		return errors.New("not enough arguments were provided")
 	}
 	cmds := commands.New()
 	
-	err = cmds.Run(a.state, args)
+	err := cmds.Run(a.state, args)
 	if err != nil {
 		return err
 	}

@@ -17,7 +17,9 @@ type CommandCallbackRegistry struct {
 func New() CommandCallbackRegistry {
 	cmds := CommandCallbackRegistry{Reg: make(map[string]func(*State, []string)error )}
 	cmds.Register("login", handlerLogin)
-	
+	cmds.Register("register", handleRegister)
+	cmds.Register("reset", handleReset)
+	cmds.Register("users", handleUsers)
 	return cmds
 }
 
