@@ -21,10 +21,12 @@ func New() CommandCallbackRegistry {
 	cmds.Register("reset", handleReset)
 	cmds.Register("users", handleUsers)
 	cmds.Register("agg", handleAggregator)
-	cmds.Register("addfeed", handleAddfeed)
+	cmds.Register("addfeed", middlewareLoggedIn(handleAddfeed))
 	cmds.Register("feeds", handleFeeds)
-	cmds.Register("follow", handleFollow)
-	cmds.Register("following", handleFollowing)
+	cmds.Register("follow", middlewareLoggedIn(handleFollow))
+	cmds.Register("following", middlewareLoggedIn(handleFollowing))
+	cmds.Register("unfollow", middlewareLoggedIn(handleUnfollow))
+	cmds.Register("browse", middlewareLoggedIn(handleBrowse))
 	return cmds
 }
 

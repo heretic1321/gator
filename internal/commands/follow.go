@@ -9,23 +9,18 @@ import (
 	"github.com/heretic1321/gator/internal/database"
 )
 
-func handleFollow(state *State, args []string) error {
+func handleFollow(state *State, args []string, user database.User) error {
 	if len(args) < 1{
 		return errors.New("url field missing from arguments")
 	}
 
 	url := args[0]
 
-	user, err := state.DB.GetUser(context.Background(), state.Cfg.CurrentUsername)
-	if err != nil {
-		return err
-	}
-
 	feed, err := state.DB.GetFeedByUrl(context.Background(), url)
 	
 
 	if err != nil {
-		err = handleAddfeed(state, []string{url})
+		err = handleAddfeed(state, []string{url, url}, user)
 		if err != nil {
 			return err
 		}

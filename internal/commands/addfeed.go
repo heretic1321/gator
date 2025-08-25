@@ -10,7 +10,7 @@ import (
 	"github.com/heretic1321/gator/internal/database"
 )
 
-func handleAddfeed(state *State, args []string) error{
+func handleAddfeed(state *State, args []string, user database.User) error{
 	if len(args) < 2{
 		return errors.New("2 required arguments missing [name, url]")
 	} else if len(args)< 1 {
@@ -18,14 +18,7 @@ func handleAddfeed(state *State, args []string) error{
 	}
 	name := args[0]
 	url := args[1]
-	user, err := state.DB.GetUser(context.Background(), state.Cfg.CurrentUsername)
-	if err != nil {
-		return err
-	}
 
-	if err != nil {
-		return err
-	}
 	createFeedParams := database.CreateFeedParams{
 		ID: uuid.New(),
 		CreatedAt: time.Now(),
@@ -40,7 +33,7 @@ func handleAddfeed(state *State, args []string) error{
 		return err
 	}
 
-	err = handleFollow(state, []string{url})
+	err = handleFollow(state, []string{url}, user)
 	if err != nil {
 		return fmt.Errorf("couldn't create feed follow relation, %s\n", err.Error())
 	} 

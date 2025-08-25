@@ -57,3 +57,24 @@ JOIN feeds AS f  ON f.id = ff.feed_id
 JOIN users AS u  ON u.id = ff.user_id
 WHERE ff.user_id = $1
 ORDER BY ff.created_at DESC;   
+
+-- name: DeleteFeedFollowByUserAndURL :exec
+DELETE FROM feed_follows as ff
+WHERE ff.user_id = $1
+  AND ff.feed_id = (
+    SELECT id FROM feeds WHERE url = $2
+  );
+
+-- name: MarkFeedFetched :exec
+UPDATE feeds
+SET last_fetched_at = NOW(),
+    updated_at = NOW()
+WHERE id = $1;
+
+
+-- name: GetNextFeedToFetch :one
+SELECT id, created_at, updated_at, name, url, user_id FROM feeds
+ORDER BY last_fetched_at NULLS FIRST
+LIMIT 1;
+
+

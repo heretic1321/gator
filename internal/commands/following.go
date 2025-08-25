@@ -2,26 +2,21 @@ package commands
 
 import (
 	"context"
-	"errors"
 	"fmt"
+	"github.com/heretic1321/gator/internal/database"
 )
 
-func handleFollowing(state *State, args []string)error {
+func handleFollowing(state *State, args []string, user database.User)error {
 	
-	user, err := state.DB.GetUser(context.Background(), state.Cfg.CurrentUsername)
+	feeds, err := state.DB.GetFeedFollowsForUser(context.Background(), user.ID)
 
 	if err != nil {
 		return err
 	}
 
-	feeds, err := state.DB.GetFeedFollowsForUser(context.Background(), user.ID)
-
-	if err != nil {
-		return errors.New("user is not following any feeds")
-	}
-
 	if len(feeds) < 1 {
-		return errors.New("user is following no feed")
+		fmt.Println("user is following no feed")
+		return nil
 	}
 	fmt.Printf("%s is following the feeds below : \n", feeds[0].UserName)
 	for _, feed := range feeds {
