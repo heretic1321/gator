@@ -21,6 +21,8 @@ func New() CommandCallbackRegistry {
 	cmds.Register("reset", handleReset)
 	cmds.Register("users", handleUsers)
 	cmds.Register("agg", handleAggregator)
+	cmds.Register("addfeed", handleAddfeed)
+	cmds.Register("feeds", handleFeeds)
 	return cmds
 }
 
