@@ -40,6 +40,11 @@ func handleAddfeed(state *State, args []string) error{
 		return err
 	}
 
-	fmt.Printf("%v", feed)
+	err = handleFollow(state, []string{url})
+	if err != nil {
+		return fmt.Errorf("couldn't create feed follow relation, %s\n", err.Error())
+	} 
+
+	fmt.Printf("%v\n", feed)
 	return nil
 }

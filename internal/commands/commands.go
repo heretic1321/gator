@@ -23,6 +23,8 @@ func New() CommandCallbackRegistry {
 	cmds.Register("agg", handleAggregator)
 	cmds.Register("addfeed", handleAddfeed)
 	cmds.Register("feeds", handleFeeds)
+	cmds.Register("follow", handleFollow)
+	cmds.Register("following", handleFollowing)
 	return cmds
 }
 
