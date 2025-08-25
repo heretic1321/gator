@@ -4,12 +4,14 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/heretic1321/gator/internal/cli"
 	"github.com/heretic1321/gator/internal/commands"
 	"github.com/heretic1321/gator/internal/config"
 	"github.com/heretic1321/gator/internal/database"
+	"github.com/heretic1321/gator/pkg/rss"
 	_ "github.com/lib/pq"
 )
 
@@ -26,6 +28,7 @@ func main(){
 	state := commands.State{
 		DB: dbQueries,
 		Cfg: &conf,
+		Client: rss.New(&http.Client{}),
 	}
 
 

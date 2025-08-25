@@ -20,6 +20,7 @@ func New() CommandCallbackRegistry {
 	cmds.Register("register", handleRegister)
 	cmds.Register("reset", handleReset)
 	cmds.Register("users", handleUsers)
+	cmds.Register("agg", handleAggregator)
 	return cmds
 }
 
